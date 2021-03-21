@@ -127,10 +127,11 @@ class CallTipWidget(QtWidgets.QLabel):
     # 'CallTipWidget' interface
     #--------------------------------------------------------------------------
 
-    def show_inspect_data(self, content, maxlines=20):
+    def show_inspect_data(self, content, maxlines=40):
         """Show inspection data as a tooltip"""
         data = content.get('data', {})
         text = data.get('text/plain', '')
+        text = self._format_tooltip(text).replace('\r', '').replace(',\n', ',').replace('\n\n', '\n')
         match = re.match("(?:[^\n]*\n){%i}" % maxlines, text)
         if match:
             text = text[:match.end()] + '\n[Documentation continues...]'
